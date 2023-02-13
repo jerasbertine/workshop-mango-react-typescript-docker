@@ -2,31 +2,31 @@ version: "3"
 services:
     db:
         container_name: mongodb
-        image: mongo
-        restart: 
-        ports: 
+        image: mongo:latest
+        restart: always
+        ports:
             - 27017:27017
         volumes:
-            - 
-        command:  
+            - mongodb:/data/db
+        command: mongod --quiet --logpath /dev/null
     server:
-        build: 
-        container_name: 
+        build: ./server
+        container_name: server
         ports:
             - 8888:8888
         volumes:
-            -
+            - data-volume:/data/db
             -
             -
         links:
-            - 
+            - db
     web:
-        build:
-        container_name: 
+        build: ./web
+        container_name: web
         ports:
             - 8889:8889
         volumes:
-            - 
+            - web:/app
             - 
 volumes:
     mongodb:
